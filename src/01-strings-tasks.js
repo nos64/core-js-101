@@ -202,8 +202,11 @@ function extractEmails(str) {
  *             '└──────────┘\n'
  *
  */
-function getRectangleString(/* width, height */) {
-  throw new Error('Not implemented');
+function getRectangleString(width, height) {
+  if (width === 2 && height === 2) {
+    return '┌┐\n└┘\n';
+  }
+  return `┌${'─'.repeat(width - 2)}┐\n${(`│${' '.repeat(width - 2)}│\n`).repeat(height - 2)}└${'─'.repeat(width - 2)}┘\n`;
 }
 
 
@@ -224,14 +227,10 @@ function getRectangleString(/* width, height */) {
  *
  */
 function encodeToRot13(str) {
-  const input = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-  const output = 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm';
-  let result = '';
-  for (let i = 0; i < str.length; i = i + 1) {
-    const index = input.indexOf(str[i]);
-    result += output[index];
-  }
-  return result;
+  const input = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const output = 'nopqrstuvwxyzabcdefghijklmNOPQRSTUVWXYZABCDEFGHIJKLM';
+
+  return str.replace(/[a-z]/gi, (letter) => output[input.indexOf(letter)]);
 }
 
 /**
@@ -246,9 +245,9 @@ function encodeToRot13(str) {
  *   isString({}) => false
  *   isString('test') => true
  *   isString(new String('test')) => true
- */
-function isString(/* value */) {
-  throw new Error('Not implemented');
+*/
+function isString(value) {
+  return value instanceof String || typeof value === 'string';
 }
 
 
@@ -276,8 +275,14 @@ function isString(/* value */) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  const arrCard = [
+    'A♣', '2♣', '3♣', '4♣', '5♣', '6♣', '7♣', '8♣', '9♣', '10♣', 'J♣',
+    'Q♣', 'K♣', 'A♦', '2♦', '3♦', '4♦', '5♦', '6♦', '7♦', '8♦', '9♦',
+    '10♦', 'J♦', 'Q♦', 'K♦', 'A♥', '2♥', '3♥', '4♥', '5♥', '6♥', '7♥',
+    '8♥', '9♥', '10♥', 'J♥', 'Q♥', 'K♥', 'A♠', '2♠', '3♠', '4♠', '5♠',
+    '6♠', '7♠', '8♠', '9♠', '10♠', 'J♠', 'Q♠', 'K♠'];
+  return arrCard.findIndex((i) => i === value);
 }
 
 
