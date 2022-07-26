@@ -62,10 +62,12 @@ function getPowerFunction(exponent) {
  *   getPolynom(8)     => y = 8
  *   getPolynom()      => null
  */
-function getPolynom() {
-  throw new Error('Not implemented');
+function getPolynom(...args) {
+  if (args.length === 1) return () => args[0];
+  if (args.length === 2) return (x) => args[0] * x + args[1];
+  if (args.length === 3) return (x) => args[0] * x ** 2 + args[1] * x + args[2];
+  return null;
 }
-
 
 /**
  * Memoizes passed function and returns function
@@ -170,8 +172,10 @@ function partialUsingArguments(/* fn, ...args1 */) {
  *   getId4() => 7
  *   getId10() => 11
  */
-function getIdGeneratorFunction(/* startFrom */) {
-  throw new Error('Not implemented');
+function getIdGeneratorFunction(startFrom) {
+  let count = startFrom;
+  // eslint-disable-next-line no-plusplus
+  return () => count++;
 }
 
 
